@@ -10,7 +10,6 @@ public:
     Persistence(Serializer* serializer)
     {
         serializer = serializer;
-        eventQueue = new queue<TrackerEvent*>();
     };
 
     void Send(TrackerEvent* tEvent)
@@ -20,7 +19,6 @@ public:
 
     void SendFlush()
     {
-        mustFlush = true;
     };
 
     void Close()
@@ -32,19 +30,11 @@ public:
     {
         updateFrequenceInMiliseconds = updateMilliseconds;
 
-        if (!Directory.Exists(path))
+        // TODO : crear directorios
+        /*if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
-        }
-    }
-
-    public void Send(TrackerEvent tEvent)
-    {
-        eventQueueMutex.WaitOne();
-
-        base.Send(tEvent);
-
-        eventQueueMutex.ReleaseMutex();
+        }*/
     }
 
 private:

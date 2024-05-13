@@ -2,18 +2,20 @@
 #include <cassert>
 #include <string>
 
+#include "Persistence.h"
+#include "Serializer.h"
+#include "EventFactory.h"
+
 using namespace std;
 
 enum PersistenceType
 {
-    FILE = 0,
-    SERVER
+    FILE = 0
 };
 
 enum SerializationType
 {
-    JSON = 0,
-    CSV
+    JSON = 0
 };
 
 class Tracker {
@@ -44,7 +46,7 @@ public:
         instance->ChooseSerializationStrategy(serializationType);
         instance->ChoosePersistenceStrategy(persistenceType);
 
-        instance->persistenceStrategy.Open(updateMilliseconds);
+        instance->persistenceStrategy->Open(updateMilliseconds);
 
         // Decidir el ID de sesión único 
         instance->GenerateUniqueID();
@@ -71,7 +73,7 @@ public:
     {
         // Rellenar timestamp, event_ID, session_ID... del evento antes de enviarlo a la cola
 
-        tEvent->Session_ID = sessionID;
+        tEvent->session_ID = sessionID;
 
         // TODO : guid
         //tEvent->Event_ID = Guid.NewGuid().ToString();
@@ -100,11 +102,7 @@ private:
         switch (pType)
         {
         case PersistenceType::FILE:
-            persistenceStrategy = new FilePersistence(serializationStrategy);
-            break;
-        case PersistenceType::SERVER:
-            // TODO server persistence
-            persistenceStrategy = new ServerPersistence(serializationStrategy);
+            persistenceStrategy = new Persistence(serializationStrategy);
             break;
         default:
             break;
@@ -116,10 +114,7 @@ private:
         switch (sType)
         {
         case SerializationType::JSON:
-            serializationStrategy = new Json_Serializer();
-            break;
-        case SerializationType::CSV:
-            serializationStrategy = new CSVSerialize();
+            serializationStrategy = new Serializer();
             break;
         default:
             break;
@@ -134,12 +129,12 @@ private:
 
     void SendSessionStartEvent()
     {
-        TrackEvent(new SessionStartEvent());
+       // TrackEvent(new SessionStartEvent());
     };
 
     void SendSessionEndEvent()
     {
-        TrackEvent(new SessionEndEvent());
+       // TrackEvent(new SessionEndEvent());
 
         // Volcado de los datos restantes
         FlushEvents();

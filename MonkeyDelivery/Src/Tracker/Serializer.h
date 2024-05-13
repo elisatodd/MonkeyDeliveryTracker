@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "TrackerEvent.h"
 
 using namespace std;
 
