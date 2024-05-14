@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <fstream>
 class Serializer;
 class TrackerEvent;
 class Persistence {
@@ -14,15 +15,15 @@ public:
 
     void Close();
    
-
+    void OpenFile();
     void Open(int updateMilliseconds);
- 
+   
 
 private:
     const std::string path = "./TrackerOutputs/";
     std::queue<TrackerEvent*> eventQueue;
     Serializer* serializer;
-
+    void Flush();
     int updateFrequenceInMiliseconds = 3000;
-
+    std::ofstream file;
 };
