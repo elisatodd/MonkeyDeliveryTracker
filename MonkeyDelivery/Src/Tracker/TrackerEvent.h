@@ -20,6 +20,7 @@ public:
     EventType type;
 
     TrackerEvent();
+   
     virtual ~TrackerEvent() = default;
 
     // Common attributes for all events, tracker should fill these in TrackEvent()
@@ -31,5 +32,6 @@ public:
     std::string ToJson() const;
 
 private:
+    std::string EventTypeToString(EventType type) const;
     const std::string separator = ";";
 };

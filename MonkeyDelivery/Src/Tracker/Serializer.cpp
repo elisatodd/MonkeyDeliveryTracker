@@ -21,5 +21,5 @@ std::string Serializer::InitFileFormat()
 std::string Serializer::serialize(TrackerEvent* trackerEvent)
 {
     // Asumiendo que TrackerEvent tiene un método ToJson()
-    return trackerEvent->ToJson() + ",\n";
+    return  "{\n"+ trackerEvent->ToJson() + "},\n";
 }
