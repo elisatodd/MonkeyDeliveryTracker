@@ -1,41 +1,22 @@
 #pragma once
 #include <queue>
-#include "TrackerEvent.h"
-
 class Serializer;
-
+class TrackerEvent;
 class Persistence {
 public:
 
-    Persistence(Serializer* serializer)
-    {
-        serializer = serializer;
-    };
+    Persistence(Serializer* serializer);
 
-    void Send(TrackerEvent* tEvent)
-    {
-        eventQueue.push(tEvent);
-    };
+    void Send(TrackerEvent* tEvent);
+    
+    void SendFlush();
+   
 
-    void SendFlush()
-    {
-    };
+    void Close();
+   
 
-    void Close()
-    {
-        SendFlush();
-    };
-
-    void Open(int updateMilliseconds)
-    {
-        updateFrequenceInMiliseconds = updateMilliseconds;
-
-        // TODO : crear directorios
-        /*if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }*/
-    }
+    void Open(int updateMilliseconds);
+ 
 
 private:
     const std::string path = "./TrackerOutputs/";

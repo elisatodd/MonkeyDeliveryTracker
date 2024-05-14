@@ -1,27 +1,12 @@
 #pragma once
-#include "TrackerEvent.h"
+#include <string>
 
-using namespace std;
+class TrackerEvent;  // Adelanto de la clase TrackerEvent
 
 class Serializer {
 public:
-    std::string EndFileFormat()
-    {
-        return "{}]}";
-    }
-
-    string GetFileExtension()
-    {
-        return ".json";
-    }
-
-    string InitFileFormat()
-    {
-        return "{\n \"Events\": [\n";
-    }
-
-    string serialize(TrackerEvent* trackerEvent)
-    {
-        return trackerEvent->ToJson() + "," + "\n";
-    }
+    std::string EndFileFormat();
+    std::string GetFileExtension();
+    std::string InitFileFormat();
+    std::string serialize(TrackerEvent* trackerEvent);
 };
