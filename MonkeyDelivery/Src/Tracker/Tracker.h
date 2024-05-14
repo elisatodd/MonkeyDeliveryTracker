@@ -17,7 +17,7 @@ enum SerializationType
 {
     JSON = 0
 };
-
+class TrackerEvent;
 class Tracker {
 public:
 
@@ -36,101 +36,33 @@ public:
 
     string sessionID;
 
-    bool Init(PersistenceType persistenceType, SerializationType serializationType, int updateMilliseconds)
-    {
-        assert(instance == nullptr);
-
-        instance = new Tracker();
-
-        instance->eventFactory = new EventFactory();
-        instance->ChooseSerializationStrategy(serializationType);
-        instance->ChoosePersistenceStrategy(persistenceType);
-
-        instance->persistenceStrategy->Open(updateMilliseconds);
-
-        // Decidir el ID de sesión único 
-        instance->GenerateUniqueID();
-
-        // Evento de inicio de sesión
-        instance->SendSessionStartEvent();
-
-        return true;
-    };
-
-    bool End()
-    {
-        assert(instance != nullptr);
-
-        // Finalizar la sesión
-        instance->SendSessionEndEvent();
-
-        delete instance;
-        instance = nullptr;
-        return true;
-    };
-
-    void TrackEvent(TrackerEvent* tEvent)
-    {
-        // Rellenar timestamp, event_ID, session_ID... del evento antes de enviarlo a la cola
-
-        tEvent->session_ID = sessionID;
-
-        // TODO : guid
-        //tEvent->Event_ID = Guid.NewGuid().ToString();
-
-        // TODO: tiempo. quizas pedir a la clase Timer
-       /* DateTimeOffset now = DateTimeOffset.Now;
-        tEvent->Timestamp = now.ToUnixTimeSeconds();*/
-
-        persistenceStrategy->Send(tEvent);
-    };
+    bool Init(PersistenceType persistenceType, SerializationType serializationType, int updateMilliseconds);
+   
+    bool End();
+  
+    void TrackEvent(TrackerEvent* tEvent);
+   
 
     // Envia todos los eventos almacenados en la cola
-    void FlushEvents()
-    {
-        persistenceStrategy->SendFlush();
-    };
+    void FlushEvents();
 
-    EventFactory* GetEventFactory() { return eventFactory; };
+
+    EventFactory* GetEventFactory();
 
 private:
     Tracker() { }; // Ocultar el constructor
 
     // Puede ser público si queremos habilitar que se cambie el tipo de persistencia a mitad del tracker
-    void ChoosePersistenceStrategy(PersistenceType pType)
-    {
-        switch (pType)
-        {
-        case PersistenceType::FILE:
-            persistenceStrategy = new Persistence(serializationStrategy);
-            break;
-        default:
-            break;
-        }
-    };
+    void ChoosePersistenceStrategy(PersistenceType pType);
+ 
+    void ChooseSerializationStrategy(SerializationType sType);
+ 
 
-    void ChooseSerializationStrategy(SerializationType sType)
-    {
-        switch (sType)
-        {
-        case SerializationType::JSON:
-            serializationStrategy = new Serializer();
-            break;
-        default:
-            break;
-        }
-    };
+    void GenerateUniqueID();
+   
 
-    void GenerateUniqueID()
-    {
-        // sessionID = Guid.NewGuid().ToString();
-        // TODO : crear el GUID
-    };
-
-    void SendSessionStartEvent()
-    {
-       // TrackEvent(new SessionStartEvent());
-    };
+    void SendSessionStartEvent();
+    
 
     void SendSessionEndEvent()
     {
