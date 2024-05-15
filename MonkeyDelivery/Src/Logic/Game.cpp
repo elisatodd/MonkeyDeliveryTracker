@@ -2,6 +2,7 @@
 #include "../Control/States/OptionsState.h"
 #include "GameObjectGenerator.h"
 #include <cmath>
+#include "../Tracker/Tracker.h"
 
 
 void Game::updateCameraPos()
@@ -36,10 +37,14 @@ Game::Game(string n, double w, double h) : name(n), width(w), height(h), doExit(
     moneyFont_ = new Font("./Images/fonts/Pixellari.ttf", 26);
 
     animationManager_ =AnimationManager::initialInstance(this);
+
+    Tracker::Init(PersistenceType::TO_FILE, SerializationType::JSON, 5000);
 }
 
 Game::~Game() {
     cout << "[DEBUG] deleting game" << endl;
+
+    Tracker::End();
 
     timer_ = nullptr;
 

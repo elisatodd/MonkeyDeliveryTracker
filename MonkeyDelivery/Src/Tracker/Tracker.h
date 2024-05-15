@@ -10,7 +10,7 @@ using namespace std;
 
 enum PersistenceType
 {
-    FILE = 0
+    TO_FILE = 0
 };
 
 enum SerializationType
@@ -18,14 +18,13 @@ enum SerializationType
     JSON = 0
 };
 class TrackerEvent;
+
 class Tracker {
 public:
 
-    Tracker* instance = nullptr; // revisar singleton en C++ (static)
-
-    Tracker* Instance() 
+    static Tracker* Instance() 
     {
-        assert(instance != nullptr);
+        assert(instance);
         return instance;
     };
 
@@ -36,9 +35,9 @@ public:
 
     string sessionID;
 
-    bool Init(PersistenceType persistenceType, SerializationType serializationType, int updateMilliseconds);
+    static bool Init(PersistenceType persistenceType, SerializationType serializationType, int updateMilliseconds);
    
-    bool End();
+    static bool End();
   
     void TrackEvent(TrackerEvent* tEvent);
    
@@ -50,7 +49,12 @@ public:
     EventFactory* GetEventFactory();
 
 private:
+    static Tracker* instance; // revisar singleton en C++ (static)
+
     Tracker() { }; // Ocultar el constructor
+    ~Tracker();
+    Tracker(Tracker& other) = delete; // Copy Constructor
+    void operator = (const Tracker&) = delete; //Assignement operator
 
     // Puede ser público si queremos habilitar que se cambie el tipo de persistencia a mitad del tracker
     void ChoosePersistenceStrategy(PersistenceType pType);

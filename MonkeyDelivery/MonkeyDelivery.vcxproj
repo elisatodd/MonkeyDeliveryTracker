@@ -262,6 +262,7 @@
     <ClInclude Include="Src\Tracker\EventFactory.h" />
     <ClInclude Include="Src\Tracker\Persistence.h" />
     <ClInclude Include="Src\Tracker\Serializer.h" />
+    <ClInclude Include="Src\Tracker\SessionStartEvent.h" />
     <ClInclude Include="Src\Tracker\Tracker.h" />
     <ClInclude Include="Src\Tracker\TrackerEvent.h" />
     <ClInclude Include="Src\Utils\Particles\ParticleExample.h" />
@@ -370,6 +371,7 @@
     <ClCompile Include="Src\Tracker\EventFactory.cpp" />
     <ClCompile Include="Src\Tracker\Persistence.cpp" />
     <ClCompile Include="Src\Tracker\Serializer.cpp" />
+    <ClCompile Include="Src\Tracker\SessionStartEvent.cpp" />
     <ClCompile Include="Src\Tracker\Tracker.cpp" />
     <ClCompile Include="Src\Tracker\TrackerEvent.cpp" />
     <ClCompile Include="Src\Utils\Particles\ParticleExample.cpp" />

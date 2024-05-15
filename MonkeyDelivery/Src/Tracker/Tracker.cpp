@@ -1,14 +1,19 @@
 #include"Tracker.h"
 #include"TrackerEvent.h"
+#include "SessionStartEvent.h"
+
 #include <windows.h>
 #include <rpc.h>
 #include <iostream>
 #include <string>
 
 #pragma comment(lib, "rpcrt4.lib")
+
+Tracker* Tracker::instance = nullptr;
+
 bool Tracker::Init(PersistenceType persistenceType, SerializationType serializationType, int updateMilliseconds)
 {
-    assert(instance == nullptr);
+    assert(!instance);
 
     instance = new Tracker();
 
@@ -17,6 +22,11 @@ bool Tracker::Init(PersistenceType persistenceType, SerializationType serializat
     instance->ChoosePersistenceStrategy(persistenceType);
 
     instance->persistenceStrategy->Open(updateMilliseconds);
+
+    //while (true) {
+    //    instance->persistenceStrategy->Send(eventoo);
+    //    std::this_thread::sleep_for(std::chrono::seconds(1));
+    //}
 
     // Decidir el ID de sesión único 
     instance->GenerateUniqueID();
@@ -29,10 +39,15 @@ bool Tracker::Init(PersistenceType persistenceType, SerializationType serializat
 
 bool Tracker::End()
 {
-    assert(instance != nullptr);
+    assert(instance);
 
     // Finalizar la sesión
     instance->SendSessionEndEvent();
+
+    delete instance->persistenceStrategy;
+    delete instance->serializationStrategy;
+
+    delete instance->eventFactory;
 
     delete instance;
     instance = nullptr;
@@ -57,7 +72,7 @@ void Tracker::TrackEvent(TrackerEvent* tEvent)
 
 void Tracker::FlushEvents()
 {
-    persistenceStrategy->SendFlush();
+    persistenceStrategy->Flush();
 }
 
 EventFactory* Tracker::GetEventFactory()
@@ -65,11 +80,15 @@ EventFactory* Tracker::GetEventFactory()
     return eventFactory;
 }
 
+Tracker::~Tracker()
+{
+}
+
 void Tracker::ChoosePersistenceStrategy(PersistenceType pType)
 {
     switch (pType)
     {
-    case PersistenceType::FILE:
+    case PersistenceType::TO_FILE:
         persistenceStrategy = new Persistence(serializationStrategy);
         break;
     default:
@@ -123,5 +142,5 @@ void Tracker::GenerateUniqueID()
 
 void Tracker::SendSessionStartEvent()
 {
-    // TrackEvent(new SessionStartEvent());
+    TrackEvent(new SessionStartEvent());
 }

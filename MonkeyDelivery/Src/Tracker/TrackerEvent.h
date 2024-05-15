@@ -8,11 +8,7 @@ enum class EventType {
     SessionStartEvent,
     SessionEndEvent,
     InitLevelEvent,
-    EndLevelEvent,
-    ClickUIRabbitEvent,
-    ClickSpawnedRabbitEvent,
-    ClickGoEvent,
-    ClickBornEvent
+    EndLevelEvent
 };
 
 class TrackerEvent {
