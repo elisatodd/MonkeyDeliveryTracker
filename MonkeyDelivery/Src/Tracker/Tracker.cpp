@@ -1,6 +1,7 @@
 #include"Tracker.h"
 #include"TrackerEvent.h"
 #include "SessionStartEvent.h"
+#include "SessionEndEvent.h"
 
 #include <windows.h>
 #include <rpc.h>
@@ -60,8 +61,7 @@ void Tracker::TrackEvent(TrackerEvent* tEvent)
 
     tEvent->session_ID = sessionID;
 
-    // TODO : guid
-    //tEvent->Event_ID = Guid.NewGuid().ToString();
+    tEvent->event_ID = GenerateUniqueID();
 
     // TODO: tiempo. quizas pedir a la clase Timer
    /* DateTimeOffset now = DateTimeOffset.Now;
@@ -108,8 +108,10 @@ void Tracker::ChooseSerializationStrategy(SerializationType sType)
     }
 }
 
-void Tracker::GenerateUniqueID()
+std::string Tracker::GenerateUniqueID()
 {
+    std::string s;
+
     UUID uuid;
     // Generar el UUID
     if (UuidCreate(&uuid) != RPC_S_OK) {
@@ -127,20 +129,35 @@ void Tracker::GenerateUniqueID()
     }
 
     // Convertir RPC_CSTR a std::string
-    sessionID = reinterpret_cast<char*>(uuidString);
+    s = reinterpret_cast<char*>(uuidString);
 
     // Liberar memoria asignada por UuidToStringA
     RpcStringFreeA(&uuidString);
 
     // Para demostrar, imprimimos el UUID generado
-    std::cout << "Generated UUID: " << sessionID << std::endl;
-  
-        // sessionID = Guid.NewGuid().ToString();
-        // TODO : crear el GUID
-   
+    std::cout << "Generated UUID: " << s << std::endl;
+
+    return s;
+}
+
+void Tracker::GenerateSessionID()
+{
+    sessionID = GenerateUniqueID();
 }
 
 void Tracker::SendSessionStartEvent()
 {
     TrackEvent(new SessionStartEvent());
+}
+
+void Tracker::SendSessionEndEvent()
+
+{
+    TrackEvent(new SessionEndEvent());
+
+    // Volcado de los datos restantes
+    FlushEvents();
+
+    // Cierre de la posible hebra 
+    persistenceStrategy->Close();
 }

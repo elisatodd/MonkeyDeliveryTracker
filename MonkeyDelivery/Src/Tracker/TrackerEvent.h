@@ -3,12 +3,10 @@
 #include <string>
 
 enum class EventType {
-    ProgressionEvent,
-    ResourceEvent,
     SessionStartEvent,
     SessionEndEvent,
-    InitLevelEvent,
-    EndLevelEvent
+    MissionStartEvent,
+    MissionEndEvent
 };
 
 class TrackerEvent {

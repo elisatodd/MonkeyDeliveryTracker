@@ -260,8 +260,11 @@
     <ClInclude Include="Src\sdlutils\TextureUtils.h" />
     <ClInclude Include="Src\sdlutils\VirtualTimer.h" />
     <ClInclude Include="Src\Tracker\EventFactory.h" />
+    <ClInclude Include="Src\Tracker\MissionEndEvent.h" />
+    <ClInclude Include="Src\Tracker\MissionStartEvent.h" />
     <ClInclude Include="Src\Tracker\Persistence.h" />
     <ClInclude Include="Src\Tracker\Serializer.h" />
+    <ClInclude Include="Src\Tracker\SessionEndEvent.h" />
     <ClInclude Include="Src\Tracker\SessionStartEvent.h" />
     <ClInclude Include="Src\Tracker\Tracker.h" />
     <ClInclude Include="Src\Tracker\TrackerEvent.h" />
@@ -369,8 +372,11 @@
     <ClCompile Include="Src\sdlutils\SoundEffect.cpp" />
     <ClCompile Include="Src\sdlutils\TextureUtils.cpp" />
     <ClCompile Include="Src\Tracker\EventFactory.cpp" />
+    <ClCompile Include="Src\Tracker\MissionEndEvent.cpp" />
+    <ClCompile Include="Src\Tracker\MissionStartEvent.cpp" />
     <ClCompile Include="Src\Tracker\Persistence.cpp" />
     <ClCompile Include="Src\Tracker\Serializer.cpp" />
+    <ClCompile Include="Src\Tracker\SessionEndEvent.cpp" />
     <ClCompile Include="Src\Tracker\SessionStartEvent.cpp" />
     <ClCompile Include="Src\Tracker\Tracker.cpp" />
     <ClCompile Include="Src\Tracker\TrackerEvent.cpp" />

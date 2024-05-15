@@ -1,6 +1,12 @@
 #pragma once
+#include "MissionStartEvent.h"
+#include "MissionEndEvent.h"
 
 class EventFactory {
 public:
-	// Añadir metodos para conseguir eventos
+	EventFactory();
+	~EventFactory();
+
+	MissionStartEvent* getMissionStartEvent();
+	MissionEndEvent* getMissionEndEvent();
 };

@@ -302,6 +302,15 @@
     <ClCompile Include="Src\Tracker\SessionStartEvent.cpp">
       <Filter>Source\Tracker</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Tracker\SessionEndEvent.cpp">
+      <Filter>Source\Tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tracker\MissionStartEvent.cpp">
+      <Filter>Source\Tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tracker\MissionEndEvent.cpp">
+      <Filter>Source\Tracker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonkeyDelivery.h" />
@@ -681,6 +690,15 @@
       <Filter>Header\Tracker</Filter>
     </ClInclude>
     <ClInclude Include="Src\Tracker\SessionStartEvent.h">
+      <Filter>Header\Tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Tracker\SessionEndEvent.h">
+      <Filter>Header\Tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Tracker\MissionStartEvent.h">
+      <Filter>Header\Tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Tracker\MissionEndEvent.h">
       <Filter>Header\Tracker</Filter>
     </ClInclude>
   </ItemGroup>

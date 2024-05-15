@@ -62,20 +62,12 @@ private:
     void ChooseSerializationStrategy(SerializationType sType);
  
 
-    void GenerateUniqueID();
+    std::string GenerateUniqueID();
+    void GenerateSessionID();
    
 
     void SendSessionStartEvent();
     
 
-    void SendSessionEndEvent()
-    {
-       // TrackEvent(new SessionEndEvent());
-
-        // Volcado de los datos restantes
-        FlushEvents();
-
-        // Cierre de la posible hebra 
-        persistenceStrategy->Close();
-    };
+    void SendSessionEndEvent();
 };

@@ -12,6 +12,7 @@
 #include "EndGameTarget.h"
 
 #include "../Utils/Timer.h"
+#include "../Tracker/Tracker.h"
 
 MissionsPanel::MissionsPanel(Game* game, AnimationManager* anim) : GameObject(game, true)
 {
@@ -166,6 +167,9 @@ void MissionsPanel::onMissionSelected(string missionId)
 
 void MissionsPanel::onMissionCompleted()
 {
+	// TRACKER : send mission completed event
+	Tracker::Instance()->TrackEvent(Tracker::Instance()->GetEventFactory()->getMissionEndEvent());
+
 	// Quitar paquete
 	game->getPlayer()->removeMissionObject();
 
