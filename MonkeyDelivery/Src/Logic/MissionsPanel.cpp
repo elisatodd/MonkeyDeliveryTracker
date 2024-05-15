@@ -126,6 +126,8 @@ void MissionsPanel::onMissionSelected(string missionId)
 	
 	// solo se hace si no había una misión activa, es decir si el vecino no estaba activo
 	if (!activeTarget_->isActive()) { //currentMission_ != nullptr
+		// TRACKER : send mission start event
+		Tracker::Instance()->TrackEvent(Tracker::Instance()->GetEventFactory()->getMissionStartEvent());
 
 		// settear la misión como activa
 		currentMission_ = new Mission(missionId, m.isExpress); 
