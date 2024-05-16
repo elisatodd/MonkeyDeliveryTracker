@@ -5,8 +5,11 @@ TrackerEvent::TrackerEvent() : type(EventType::SessionStartEvent), event_ID("EVE
 }
 std::string TrackerEvent::EventTypeToString(EventType type) const {
     switch (type) {
+    case EventType::ProgressionEvent: return "ProgressionEvent";
     case EventType::SessionStartEvent: return "SessionStartEvent";
-        
+    case EventType::SessionEndEvent: return "SessionEndEvent";
+    case EventType::MissionStartEvent: return "MissionStartEvent";
+    case EventType::MissionEndEvent: return "MissionEndEvent";
     default: return "UnknownEvent";
     }
 }

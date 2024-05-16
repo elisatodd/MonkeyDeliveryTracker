@@ -30,10 +30,10 @@ bool Tracker::Init(PersistenceType persistenceType, SerializationType serializat
     //    std::this_thread::sleep_for(std::chrono::seconds(1));
     //}
 
-    // Decidir el ID de sesión único 
+    // Decidir el ID de sesiï¿½n ï¿½nico 
     instance->GenerateUniqueID();
 
-    // Evento de inicio de sesión
+    // Evento de inicio de sesiï¿½n
     instance->SendSessionStartEvent();
 
     return true;
@@ -43,7 +43,7 @@ bool Tracker::End()
 {
     assert(instance);
 
-    // Finalizar la sesión
+    // Finalizar la sesiï¿½n
     instance->SendSessionEndEvent();
 
     delete instance->persistenceStrategy;
@@ -64,10 +64,14 @@ void Tracker::TrackEvent(TrackerEvent* tEvent)
 
     tEvent->event_ID = GenerateUniqueID();
 
-    // TODO: tiempo. quizas pedir a la clase Timer
-   /* DateTimeOffset now = DateTimeOffset.Now;
-    tEvent->Timestamp = now.ToUnixTimeSeconds();*/
-    tEvent->Timestamp = std::time(nullptr);
+    // Obtener el tiempo actual
+    time_t currentTime = std::time(nullptr);
+
+    if (currentTime == -1) {
+        std::cout << "Error al obtener el tiempo actual.\n";
+    }
+    tEvent->Timestamp = currentTime;
+
     persistenceStrategy->Send(tEvent);
 }
 
@@ -126,7 +130,6 @@ std::string Tracker::GenerateUniqueID()
     if (UuidToStringA(&uuid, &uuidString) != RPC_S_OK) {
         // Manejar el error
         std::cerr << "Error al convertir UUID a cadena" << std::endl;
-        return "";
     }
 
     // Convertir RPC_CSTR a std::string

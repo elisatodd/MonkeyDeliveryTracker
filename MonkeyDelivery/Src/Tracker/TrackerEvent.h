@@ -3,6 +3,7 @@
 #include <string>
 
 enum class EventType {
+    ProgressionEvent,
     SessionStartEvent,
     SessionEndEvent,
     MissionStartEvent,
