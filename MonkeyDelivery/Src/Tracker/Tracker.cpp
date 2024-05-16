@@ -7,6 +7,7 @@
 #include <rpc.h>
 #include <iostream>
 #include <string>
+#include <ctime>
 
 #pragma comment(lib, "rpcrt4.lib")
 
@@ -66,7 +67,7 @@ void Tracker::TrackEvent(TrackerEvent* tEvent)
     // TODO: tiempo. quizas pedir a la clase Timer
    /* DateTimeOffset now = DateTimeOffset.Now;
     tEvent->Timestamp = now.ToUnixTimeSeconds();*/
-
+    tEvent->Timestamp = std::time(nullptr);
     persistenceStrategy->Send(tEvent);
 }
 
@@ -117,7 +118,7 @@ std::string Tracker::GenerateUniqueID()
     if (UuidCreate(&uuid) != RPC_S_OK) {
         // Manejar el error
         std::cerr << "Error al generar UUID" << std::endl;
-        return;
+        return "";
     }
 
     // Convertir el UUID a cadena
@@ -125,7 +126,7 @@ std::string Tracker::GenerateUniqueID()
     if (UuidToStringA(&uuid, &uuidString) != RPC_S_OK) {
         // Manejar el error
         std::cerr << "Error al convertir UUID a cadena" << std::endl;
-        return;
+        return "";
     }
 
     // Convertir RPC_CSTR a std::string

@@ -3,7 +3,7 @@
 #include"Serializer.h"
 #include <iostream>
 #include <filesystem>
-#include <chrono>
+#include <ctime>
 
 Persistence::Persistence(Serializer* serializer)
 {
@@ -48,7 +48,9 @@ void Persistence::CloseFile()
 
 void Persistence::OpenFile()
 {
-    auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    
+   
+    auto timestamp = std::time(nullptr);
     std::string fileName = std::to_string(timestamp) + serializer->GetFileExtension();
 
     std::string filePath = path + fileName;
